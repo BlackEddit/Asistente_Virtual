@@ -9,14 +9,17 @@ from weather import Weather
 from tts import TTS
 from pc_command import PcCommand
 
-#Cargar llaves del archivo .env / archivo de audio
+#Cargar llaves del archivo .env / variables seguras APIs, Solo por seguridad propia
 load_dotenv()
-# captura de las KEYS
+
+# configura las llaves de las APIs
 openai.api_key = os.getenv('OPENAI_API_KEY')
 elevenlabs_key = os.getenv('ELEVENLABS_API_KEY')
 
+# Crear una instancia de la aplicación Flask / Objeto flask
 app = Flask(__name__)
 
+# Definir la ruta raíz que renderiza la página HTML recorder.html
 @app.route("/")
 def index():
     return render_template("recorder.html")
