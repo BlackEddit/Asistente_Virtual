@@ -61,6 +61,6 @@ def audio():
 
     # Si no se identifica ninguna función, generar una respuesta por defecto
     else:
-        final_response = "No tengo idea de lo que estás hablando, Ringa Tech"
+        final_response = "No tengo idea de lo que estás hablando, Edd"
         tts_file = TTS().process(final_response)
         return {"result": "ok", "text": final_response, "file": tts_file}
