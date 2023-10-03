@@ -16,7 +16,7 @@ load_dotenv()
 openai.api_key = os.getenv('OPENAI_API_KEY')
 elevenlabs_key = os.getenv('ELEVENLABS_API_KEY')
 
-# Crear una instancia de la aplicación Flask / Objeto flask
+# Crear una instancia de la aplicación Flask / Objeto flask ---- Flask es para creacion de sitios web con python
 app = Flask(__name__)
 
 # Definir la ruta raíz que renderiza la página HTML recorder.html
@@ -24,43 +24,42 @@ app = Flask(__name__)
 def index():
     return render_template("recorder.html")
 
+# Definir la ruta /audio que acepta solicitudes POST
 @app.route("/audio", methods=["POST"])
 def audio():
-    #Obtener audio grabado y transcribirlo
+    # Obtener el archivo de audio de la solicitud
     audio = request.files.get("audio")
+    # Transcribir el audio a texto
     text = Transcriber().transcribe(audio)
     
-    #Utilizar el LLM para ver si llamar una funcion
+    # Crear una instancia de LLM y procesar el texto para identificar una función y argumentos
     llm = LLM()
     function_name, args, message = llm.process_functions(text)
+    
+    # Verificar si se identificó una función
     if function_name is not None:
-        #Si se desea llamar una funcion de las que tenemos
+        # Procesar diferentes funciones identificadas
         if function_name == "get_weather":
-            #Llamar a la funcion del clima
+            # Obtener el clima basado en la ubicación proporcionada
             function_response = Weather().get(args["ubicacion"])
             function_response = json.dumps(function_response)
             print(f"Respuesta de la funcion: {function_response}")
             
+            # Procesar la respuesta y generar un archivo de audio con la respuesta
             final_response = llm.process_response(text, message, function_name, function_response)
             tts_file = TTS().process(final_response)
+            # Devolver la respuesta y el archivo de audio como un objeto JSON
             return {"result": "ok", "text": final_response, "file": tts_file}
         
+        # Procesar otros casos como enviar correo, abrir Chrome, etc.
         elif function_name == "send_email":
-            #Llamar a la funcion para enviar un correo
             final_response = "Tu que estas leyendo el codigo, implementame y envia correos muahaha"
             tts_file = TTS().process(final_response)
             return {"result": "ok", "text": final_response, "file": tts_file}
         
-        elif function_name == "open_chrome":
-            PcCommand().open_chrome(args["website"])
-            final_response = "Listo, ya abrí chrome en el sitio " + args["website"]
-            tts_file = TTS().process(final_response)
-            return {"result": "ok", "text": final_response, "file": tts_file}
-        
-        elif function_name == "dominate_human_race":
-            final_response = "No te creas. Suscríbete al canal!"
-            tts_file = TTS().process(final_response)
-            return {"result": "ok", "text": final_response, "file": tts_file}
+        # ... (otros casos)
+
+    # Si no se identifica ninguna función, generar una respuesta por defecto
     else:
         final_response = "No tengo idea de lo que estás hablando, Ringa Tech"
         tts_file = TTS().process(final_response)
