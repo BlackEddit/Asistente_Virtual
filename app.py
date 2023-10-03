@@ -20,15 +20,15 @@ elevenlabs_key = os.getenv('ELEVENLABS_API_KEY')
 app = Flask(__name__)
 
 # Definir la ruta raíz que renderiza la página HTML recorder.html
-@app.route("/")
-def index():
+@app.route("/") # '/' representa la direccion inicial de el sitio web
+def index(): #/ esta funcion es la que se ejecutara cuando visite la direcion anterior
     return render_template("recorder.html")
 
-# Definir la ruta /audio que acepta solicitudes POST
+# Definir la ruta /audio que acepta solicitudes POST --- solicitudes POST son una manera de enviar datos a un servidor. A diferencia de las solicitudes GET
 @app.route("/audio", methods=["POST"])
 def audio():
     # Obtener el archivo de audio de la solicitud
-    audio = request.files.get("audio")
+    audio = request.files.get("audio") #Obtiene el archivo de audio enviado. --- contiene los datos enviados por el cliente. request.files.get("audio")
     # Transcribir el audio a texto
     text = Transcriber().transcribe(audio)
     
