@@ -1,6 +1,6 @@
 import os
 import openai
-from dotenv import load_dotenv
+from dotenv import load_dotenv # para el uso de archivos ENV, que aplica en seguridad
 from flask import Flask, render_template, request
 import json
 from transcriber import Transcriber
