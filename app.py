@@ -9,8 +9,9 @@ from weather import Weather
 from tts import TTS
 from pc_command import PcCommand
 
-#Cargar llaves del archivo .env
+#Cargar llaves del archivo .env / archivo de audio
 load_dotenv()
+# captura de las KEYS
 openai.api_key = os.getenv('OPENAI_API_KEY')
 elevenlabs_key = os.getenv('ELEVENLABS_API_KEY')
 
