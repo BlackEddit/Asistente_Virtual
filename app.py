@@ -58,9 +58,21 @@ def audio():
             return {"result": "ok", "text": final_response, "file": tts_file}
         
         # ... (otros casos)
-
+        ''' Codigo de pruebas para respuestas'''
+    
+        
+        
     # Si no se identifica ninguna función, generar una respuesta por defecto
     else:
-        final_response = "No tengo idea de lo que estás hablando, Edd"
-        tts_file = TTS().process(final_response)
-        return {"result": "ok", "text": final_response, "file": tts_file}
+        # final_response = "No tengo idea de lo que estás hablando, Edd"
+        # tts_file = TTS().process(final_response)
+        # return {"result": "ok", "text": final_response, "file": tts_file}
+        
+        # Obtener respuesta de OpenAI
+        openai_response = llm.get_openai_response(text)
+        
+        # Convertir respuesta a audio
+        tts_file = TTS().process(openai_response)
+        
+        # Devolver la respuesta y el archivo de audio como un objeto JSON
+        return {"result": "ok", "text": openai_response, "file": tts_file}
