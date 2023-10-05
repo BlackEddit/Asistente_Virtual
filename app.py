@@ -52,7 +52,7 @@ def audio():
             return {"result": "ok", "text": final_response, "file": tts_file}
         
         # Procesar otros casos como enviar correo, abrir Chrome, etc.
-        elif function_name == "send_email":
+        if function_name == "send_email":
             final_response = "Tu que estas leyendo el codigo, implementame y envia correos muahaha"
             tts_file = TTS().process(final_response)
             return {"result": "ok", "text": final_response, "file": tts_file}
