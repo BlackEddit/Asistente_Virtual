@@ -8,6 +8,8 @@ from llm import LLM
 from weather import Weather
 from tts import TTS
 from pc_command import PcCommand
+from threading import Thread
+
 
 #Cargar llaves del archivo .env / variables seguras APIs, Solo por seguridad propia
 load_dotenv()
